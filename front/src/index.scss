@@ -1,5 +1,10 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
+  padding: 0;
   font-family: 'Poppins', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -8,4 +13,83 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+input {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #6E48AA;
+}
+
+// GENERAL STYLINGS
+.form-control {
+  display: block;
+  width: 100%;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  background-color: #fff;
+  // background-clip: padding-box;
+  border: 1px solid #ced4da;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 8px;
+  // border-radius: .25rem;
+  transition: border-color .3s ease-in-out,box-shadow .3s ease-in-out;
+  &:focus {
+    color: #212529;
+    background-color: #fff;
+    border-color: #6e48aa;
+    outline: 0;
+    box-shadow: 0 0 0 .25rem rgba(110, 72, 170,.25);
+  }
+}
+
+.btn {
+  min-width: 150px;
+  border: none;
+  appearance: none;
+  padding: 12px 24px;
+  text-align: center;
+  background-color: #6E48AA;
+  color: white;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color .3s ease-in-out;
+  
+  &.btn-extend {
+    min-width: auto;
+    width: 100%;
+  }
+  &.btn-outline {
+    transition: border .3s ease-in-out, color .3s ease-in-out;
+    background-color: white;
+    color: #6E48AA;
+    border: 1px solid #6E48AA;
+    &:hover {
+      border: 1px transparent;
+      color: white;
+      background-color: #6E48AA;
+    }
+  }
+  &.btn-disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+    background-color: lightgrey;
+  }
+  &:hover {
+    background-color: darken(#6E48AA, 10);
+  }
+  &:active, &:focus {
+    border: none;
+    background-color: lighten(#6E48AA, 10);
+  }
+
 }
