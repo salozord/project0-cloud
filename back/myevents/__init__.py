@@ -9,7 +9,11 @@ from flask_jwt_extended import JWTManager
 
 app = Flask(__name__, instance_relative_config=True)
 app.config.from_object('config')
-app.config.from_pyfile('config.py')
+try:
+    # Load the dev config if we have it available
+    app.config.from_pyfile('config.py')
+except:
+    pass
 
 db = SQLAlchemy(app)
 ma = Marshmallow(app)

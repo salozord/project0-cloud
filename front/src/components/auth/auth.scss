@@ -13,6 +13,10 @@
         padding: 1rem;
         background-color: white;
         border-radius: 16px;
+
+        @media screen and (min-width:768px) {
+            width: 400px;
+        }
         .auth-header {
             border-bottom: 2px solid lightgrey;
             h1 {
