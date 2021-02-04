@@ -15,22 +15,26 @@ export default function EventosCreate({ edit }) {
         fecha_fin: new Date().toISOString(),
         presencial: false
     });
+    const [error, setError] = useState();
 
     const history = useHistory();
     const location = useLocation();
 
-    const { crearEvento, actualizarEvento, getEvento, error } = useEventos();
+    const { crearEvento, actualizarEvento, getEvento } = useEventos();
     const { eventoId } = useParams();
 
     useEffect(() => {
         if(edit && Object.values(evento).some((e) => e === '' || e === undefined)) {
-            getEvento(eventoId).then((res) => {
+            getEvento(eventoId).then(async (res) => {
+                if(res.ok === false) {
+                    throw ((res.json)? await res.json() : res.message) || res;
+                }
                 setEvento({
                     ...res,
                     fecha_inicio: new Date(res.fecha_inicio).toISOString(),
                     fecha_fin: new Date(res.fecha_fin).toISOString(),
                 });
-            });
+            }).catch((err) => setError(err));
         }
     }, [edit, eventoId, getEvento, evento]);
 

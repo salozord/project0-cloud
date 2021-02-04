@@ -15,6 +15,7 @@ export function EventosDetail() {
         fecha_fin: new Date().toISOString(),
         presencial: false
     });
+    const [error, setError] = useState();
 
     const { getEvento, eliminarEvento } = useEventos();
     const { eventoId } = useParams();
@@ -24,9 +25,12 @@ export function EventosDetail() {
 
     useEffect(() => {
         if(Object.values(evento).some((e) => e === '' || e === undefined)) {
-            getEvento(eventoId).then((res) => {
+            getEvento(eventoId).then(async (res) => {
+                if(res.ok === false) {
+                    throw ((res.json)? await res.json() : res.message) || res;
+                }
                 setEvento(res);
-            });
+            }).catch((err) => setError(err));
         }
     }, [eventoId, getEvento, evento]);
 
@@ -37,28 +41,34 @@ export function EventosDetail() {
 
     return (
         <section className="evento-detail">
-            <div className="evento-card">
-                <div className="evento-card-header">
-                    <h3>{evento.nombre}</h3>
+            {(error)? (
+                <div className="evento-card">
+                    ¡El evento no existe o no es tuyo!
                 </div>
-                <div className="evento-card-body">
-                    <p className="subtitle">{evento.lugar}</p>
-                    <p className="silent">Creado el: {new Date(evento.fecha_creacion).toLocaleString()}</p>
-                    <p className="subtitle">{evento.categoria}</p>
-                    <p>Dirección: {evento.direccion}</p>
-                    <p>Inicio: {new Date(evento.fecha_inicio).toLocaleDateString()}</p>
-                    <p>Fin: {new Date(evento.fecha_fin).toLocaleDateString()}</p>
-                    <p className="subtitle">{(evento.presencial)? "Presencial":"Virtual"}</p>
+            ) : (
+                <div className="evento-card">
+                    <div className="evento-card-header">
+                        <h3>{evento.nombre}</h3>
+                    </div>
+                    <div className="evento-card-body">
+                        <p className="subtitle">{evento.lugar}</p>
+                        <p className="silent">Creado el: {new Date(evento.fecha_creacion).toLocaleString()}</p>
+                        <p className="subtitle">{evento.categoria}</p>
+                        <p>Dirección: {evento.direccion}</p>
+                        <p>Inicio: {new Date(evento.fecha_inicio).toLocaleDateString()}</p>
+                        <p>Fin: {new Date(evento.fecha_fin).toLocaleDateString()}</p>
+                        <p className="subtitle">{(evento.presencial)? "Presencial":"Virtual"}</p>
+                    </div>
+                    <div className="evento-detail-buttons">
+                        <Link to={{pathname: `/editar/${eventoId}`, state: { from: location }}} className="btn">
+                            Editar
+                        </Link>
+                        <button onClick={delEvento} className="btn btn-outline">
+                            Eliminar
+                        </button>
+                    </div>
                 </div>
-                <div className="evento-detail-buttons">
-                    <Link to={{pathname: `/editar/${eventoId}`, state: { from: location }}} className="btn">
-                        Editar
-                    </Link>
-                    <button onClick={delEvento} className="btn btn-outline">
-                        Eliminar
-                    </button>
-                </div>
-            </div>
+            )}
         </section>
     );
 }

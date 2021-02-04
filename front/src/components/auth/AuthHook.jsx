@@ -24,19 +24,19 @@ export const useAuth = () => {
  */
 function useProvideAuth() {
     const [user, setUser] = useState();
-    const [error, setError] = useState();
+    // const [error, setError] = useState();
 
     /**
      * Resets the error if there was a previous one
      */
-    const resetError = () => (error)? setError(null) :  null;
+    // const resetError = () => (error)? setError(null) :  null;
     
     /**
      * Wraps the login functionality
      * @param {object} {correo, clave} El objeto con las credenciales
      */
     const login = async (credenciales) => {
-      resetError();
+      // resetError();
       let content = JSON.stringify(credenciales);
       return fetch(endpointApi + loginApi, {
           method: "POST",
@@ -46,16 +46,14 @@ function useProvideAuth() {
           }
       })
       .then(async (ans) => {
-        let response = await ans.json();
         if(ans.ok) {
+          let response = await ans.json();
           localStorage.setItem("user", response.token);
           setUser(response.token);
           return response;
         }
-        setError(response);
-        return response;
-      })
-      .catch((err) => setError(err));
+        return ans;
+      });
     };
   
     /**
@@ -63,7 +61,7 @@ function useProvideAuth() {
      * @param {object} {correo:String, clave:String} El objeto con las credenciales 
      */
     const registro = async (credenciales) => {
-      resetError();
+      // resetError();
       let content = JSON.stringify(credenciales);
       return fetch(endpointApi + registroApi, { 
         method: "POST",
@@ -73,14 +71,12 @@ function useProvideAuth() {
         }
       })
       .then(async (ans) => {
-        let response = await ans.json();
         if(ans.ok) {
+          let response = await ans.json();
           return response;
         }
-        setError(response);
-        return response;
-      })
-      .catch((err) => setError(err));
+        return ans;
+      });
     };
   
     /**
@@ -101,10 +97,9 @@ function useProvideAuth() {
 
     
     return {
-        user,
-        error,
-        login,
-        registro,
-        logout
+      user,
+      login,
+      registro,
+      logout
     };
 }

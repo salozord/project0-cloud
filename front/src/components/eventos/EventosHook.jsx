@@ -25,14 +25,14 @@ export const useEventos = () => {
  */
 function useProvideEventos() {
     const [eventos, setEventos] = useState();
-    const [error, setError] = useState();
+    // const [error, setError] = useState();
 
     const { user } = useAuth();
 
     /**
      * Resets the error if there was a previous one
      */
-    const resetError = useCallback(() => setError(null), []);
+    // const resetError = useCallback(() => setError(null), []);
 
     /**
      * Resets the state of the events list
@@ -43,7 +43,6 @@ function useProvideEventos() {
      * Wraps the getEventos functionality
      */
     const getEventos = useCallback(async () => {
-      resetError();
       return fetch(endpointApi + eventosApi, {
           method: "GET",
           headers: {
@@ -52,24 +51,21 @@ function useProvideEventos() {
           }
       })
       .then(async (ans) => {
-        let response = await ans.json();
         if(ans.ok) {
+          let response = await ans.json();
           response.sort((a, b) => (new Date(b.fecha_creacion)) - (new Date(a.fecha_creacion)));
           setEventos(response);
           return response;
         }
-        setError(response);
-        return response;
-      })
-      .catch((err) => setError(err));
-    }, [resetError, user]);
+        return ans;
+      });
+    }, [user]);
 
     /**
      * Wraps the getEvento functionality
      * @param {String} id The id of the event
      */
     const getEvento = useCallback(async (id) => {
-      resetError();
       return fetch(`${endpointApi}${eventosApi}/${id}`, {
           method: "GET",
           headers: {
@@ -78,22 +74,19 @@ function useProvideEventos() {
           }
       })
       .then(async (ans) => {
-        let response = await ans.json();
         if(ans.ok) {
+          let response = await ans.json();
           return response;
         }
-        setError(response);
-        return response;
-      })
-      .catch((err) => setError(err));
-    }, [resetError, user]);
+        return ans;
+      });
+    }, [user]);
   
     /**
      * Creates a new event
      * @param {object} nuevoEvento El nuevo evento a ser creado
      */
     const crearEvento = useCallback(async (nuevoEvento) => {
-      resetError();
       return fetch(endpointApi + eventosApi, { 
         method: "POST",
         body: JSON.stringify(nuevoEvento),
@@ -103,16 +96,14 @@ function useProvideEventos() {
         }
       })
       .then(async (ans) => {
-        let response = await ans.json();
         if(ans.ok) {
-            setEventos(e => [ ...e, response ]);
-            return response;
+          let response = await ans.json();
+          setEventos(e => [ ...e, response ]);
+          return response;
         }
-        setError(response);
-        return response;
-      })
-      .catch((err) => setError(err));
-    }, [resetError, user]);
+        return ans;
+      });
+    }, [user]);
 
     /**
      * Updates an event
@@ -120,34 +111,30 @@ function useProvideEventos() {
      * @param {object} eventoActualizado El evento Actualizado
      */
     const actualizarEvento = useCallback(async (id, eventoActualizado) => {
-        resetError();
-        return fetch(`${endpointApi}${eventosApi}/${id}`, { 
-          method: "PUT",
-          body: JSON.stringify(eventoActualizado),
-          headers: {
-            "Authorization": `Bearer ${user}`,
-            "Content-Type": "application/json"
-          }
-        })
-        .then(async (ans) => {
+      return fetch(`${endpointApi}${eventosApi}/${id}`, { 
+        method: "PUT",
+        body: JSON.stringify(eventoActualizado),
+        headers: {
+          "Authorization": `Bearer ${user}`,
+          "Content-Type": "application/json"
+        }
+      })
+      .then(async (ans) => {
+        if(ans.ok) {
           let response = await ans.json();
-          if(ans.ok) {
-              let actuales = eventos.filter((v) => v.id !== +id);
-              setEventos([ ...actuales, response ]);
-              return response;
-          }
-          setError(response);
+          let actuales = eventos.filter((v) => v.id !== +id);
+          setEventos([ ...actuales, response ]);
           return response;
-        })
-        .catch((err) => setError(err));
-    }, [resetError, eventos, user]);
+        }
+        return ans;
+      });
+    }, [eventos, user]);
 
     /**
      * Deletes an event
      * @param {object} id El evento a eliminar
      */
     const eliminarEvento = useCallback(async (id) => {
-      resetError();
       return fetch(`${endpointApi}${eventosApi}/${id}`, {
         method: "DELETE",
         headers: {
@@ -160,12 +147,9 @@ function useProvideEventos() {
             setEventos(actuales);
             return ans;
         }
-        let error = await ans.json();
-        setError(error);
-        return error;
-      })
-      .catch((err) => setError(err));
-    },  [resetError, eventos, user]) ;
+        return ans;
+      });
+    }, [eventos, user]) ;
   
     /**
      * Subscribe to events on mount
@@ -173,14 +157,12 @@ function useProvideEventos() {
     useEffect(() => {
       if(!user) {
         setEventos(null);
-        setError(null);
       }
     }, [user, getEventos]);
 
 
     return {
         eventos,
-        error,
         getEventos,
         getEvento,
         resetEventos,

@@ -8,8 +8,9 @@ export default function RegistroPage() {
     const [clave, setClave] = useState('');
     const [claveVerif, setClaveVerif] = useState('');
     const [coinciden, setCoinciden] = useState(false);
+    const [error, setError] = useState();
     
-    const { registro, error } = useAuth();
+    const { registro } = useAuth();
     const history = useHistory();
     const location = useLocation();
 
@@ -51,9 +52,12 @@ export default function RegistroPage() {
 
         if(validoCorreo && correo && clave && coinciden) {
             let { from } = location.state || { from: { pathname: "/" } };
-            registro({ correo, clave }).then(() => {
+            registro({ correo, clave }).then(async (r) => {
+                if(r.ok === false) {
+                    throw ((r.json)? await r.json() : r.message) || r;
+                }
                 history.replace(from);
-            });
+            }).catch((err) => setError(err));;
         }
     };
 

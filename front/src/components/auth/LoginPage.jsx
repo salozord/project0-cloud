@@ -8,8 +8,9 @@ export default function LoginPage() {
     const [correo, setCorreo] = useState('');
     const [validoCorreo, setValidoCorreo] = useState(false);
     const [clave, setClave] = useState('');
+    const [error, setError] = useState();
 
-    const { login, error } = useAuth();
+    const { login } = useAuth();
     const history = useHistory();
     const location = useLocation();
 
@@ -39,9 +40,12 @@ export default function LoginPage() {
 
         if(validoCorreo && correo && clave) {
             let { from } = location.state || { from: { pathname: "/" } };
-            login({correo, clave}).then(() => {
+            login({correo, clave}).then(async (r) => {
+                if(r.ok === false) {
+                    throw ((r.json)? await r.json() : r.message) || r;
+                }
                 history.replace(from);
-            });
+            }).catch((err) => setError(err));;
         }
     };
 
