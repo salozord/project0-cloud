@@ -8,7 +8,7 @@ export default function EventosCreate({ edit }) {
 
     const [evento, setEvento] = useState({
         nombre: '',
-        categoria: '',
+        categoria: 'Curso',
         lugar: '',
         direccion: '',
         fecha_inicio: new Date().toISOString(),
@@ -115,7 +115,6 @@ export default function EventosCreate({ edit }) {
                                 <option value="Congreso">Congreso</option>
                                 <option value="Conferencia">Conferencia</option>
                             </select>
-                            {/* <input className="form-control" type="text" name="categoria" id="categoria" onChange={changeCategoria} value={evento.categoria} placeholder="(Curso, Seminario, Congreso o Conferencia)" /> */}
                             <label htmlFor="lugar">Lugar</label>
                             <input className="form-control" type="text" name="lugar" id="lugar" onChange={changeLugar} value={evento.lugar} placeholder="Ingresa el lugar" />
                             <label htmlFor="direccion">Dirección</label>
