@@ -24,19 +24,23 @@ export const useEventos = () => {
  * Provider hook that creates the events object and handles state
  */
 function useProvideEventos() {
-    const [eventos, setEventos] = useState([]);
+    const [eventos, setEventos] = useState();
     const [error, setError] = useState();
 
-    const { user } = useAuth(); 
+    const { user } = useAuth();
 
     /**
      * Resets the error if there was a previous one
      */
     const resetError = () => (error)? setError(null) :  null;
+
+    /**
+     * Resets the state of the events list
+     */
+    const resetEventos = () => setEventos(null);
     
     /**
      * Wraps the getEventos functionality
-     * @param {String} token The token of the user
      */
     const getEventos = async () => {
       resetError();
@@ -50,7 +54,32 @@ function useProvideEventos() {
       .then(async (ans) => {
         let response = await ans.json();
         if(ans.ok) {
+          response.sort((a, b) => (new Date(b.fecha_creacion)) - (new Date(a.fecha_creacion)));
           setEventos(response);
+          return response;
+        }
+        setError(response);
+        return response;
+      })
+      .catch((err) => setError(err));
+    };
+
+    /**
+     * Wraps the getEvento functionality
+     * @param {String} id The id of the event
+     */
+    const getEvento = async (id) => {
+      resetError();
+      return fetch(`${endpointApi}${eventosApi}/${id}`, {
+          method: "GET",
+          headers: {
+              "Authorization": `Bearer ${user}`,
+              "Content-Type": "application/json" 
+          }
+      })
+      .then(async (ans) => {
+        let response = await ans.json();
+        if(ans.ok) {
           return response;
         }
         setError(response);
@@ -128,7 +157,7 @@ function useProvideEventos() {
         .then(async (ans) => {
           if(ans.ok) {
               let actuales = eventos.filter((v) => v.id !== id)
-              setEventos([ ...actuales ]);
+              setEventos(actuales);
               return ans;
           }
           let error = await ans.json();
@@ -143,17 +172,23 @@ function useProvideEventos() {
      */
     useEffect(() => {
       if(!user) {
-        setEventos([]);
+        setEventos(null);
+        setError(null);
       }
-    }, [user]);
+      else {
+        getEventos();
+      }
+    }, [user, getEventos]);
 
 
     return {
         eventos,
         error,
         getEventos,
+        getEvento,
+        resetEventos,
         crearEvento,
         actualizarEvento,
-        eliminarEvento
+        eliminarEvento,
     };
 }

@@ -34,13 +34,11 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.5;
   color: #212529;
   background-color: #fff;
-  // background-clip: padding-box;
   border: 1px solid #ced4da;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
   border-radius: 8px;
-  // border-radius: .25rem;
   transition: border-color .3s ease-in-out,box-shadow .3s ease-in-out;
   &:focus {
     color: #212529;

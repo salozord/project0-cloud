@@ -3,20 +3,25 @@ import { Link, useHistory } from 'react-router-dom';
 import { useAuth } from './AuthHook'
 
 export default function AuthButton() {
-    // const history = useHistory();
+    const history = useHistory();
     const auth = useAuth();
 
     const logout = async () => {
         await auth.logout();
-       // history.replace("/");
+        history.replace("/login");
     };
 
     return (auth.user) ? (
         <ul>
             <li>
-                <button onClick={() => logout()}>
+                <Link to="/eventos/crear">
+                    <i className="bi bi-plus-circle"></i>&nbsp;Crear
+                </Link>
+            </li> 
+            <li>
+                <Link onClick={() => logout()}>
                     <i className="bi bi-box-arrow-right"></i>&nbsp;Salir
-                </button>
+                </Link>
             </li> 
         </ul>
     ) : (

@@ -48,8 +48,8 @@ function useProvideAuth() {
       .then(async (ans) => {
         let response = await ans.json();
         if(ans.ok) {
-          localStorage.setItem("user", response);
-          setUser(response);
+          localStorage.setItem("user", response.token);
+          setUser(response.token);
           return response;
         }
         setError(response);

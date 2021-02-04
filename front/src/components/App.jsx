@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Link, Route } from "react-router-dom";
 import { PrivateRoute } from "./utils/PrivateRoute";
 import { AuthRoute } from "./utils/AuthRoute";
 import { ProvideAuth } from "./auth/AuthHook";
@@ -9,6 +9,7 @@ import EventosPage from "./eventos/EventosPage"
 import LoginPage from "./auth/LoginPage";
 import RegistroPage from "./auth/RegistroPage";
 import './App.scss';
+import NotFound from "./utils/NotFound";
 
 function App() {
   return (
@@ -25,15 +26,18 @@ function App() {
 
           <div className="container">
             <Switch>
+              <PrivateRoute exact path="/">
+                <EventosPage />
+              </PrivateRoute>
               <AuthRoute path="/login">
                 <LoginPage />
               </AuthRoute>
               <AuthRoute path="/registro">
                 <RegistroPage />
               </AuthRoute>
-              <PrivateRoute path="/">
-                <EventosPage />
-              </PrivateRoute>
+              <Route path="*">
+                <NotFound />
+              </Route>
             </Switch>
           </div>
         </div>
