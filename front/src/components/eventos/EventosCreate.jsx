@@ -24,11 +24,12 @@ export default function EventosCreate({ edit }) {
     const { eventoId } = useParams();
 
     useEffect(() => {
-        if(edit && Object.values(evento).some((e) => e === '' || e === undefined)) {
+        if(edit) {
             getEvento(eventoId).then(async (res) => {
                 if(res.ok === false) {
                     throw ((res.json)? await res.json() : res.message) || res;
                 }
+                console.log('ejecutó')
                 setEvento({
                     ...res,
                     fecha_inicio: new Date(res.fecha_inicio).toISOString(),
@@ -36,7 +37,7 @@ export default function EventosCreate({ edit }) {
                 });
             }).catch((err) => setError(err));
         }
-    }, [edit, eventoId, getEvento, evento]);
+    }, [edit, eventoId, getEvento]);
 
 
     const changeNombre = (event) => {

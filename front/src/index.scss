@@ -94,6 +94,7 @@ h1, h2, h3, h4, h5, h6 {
   color: white;
   font-weight: 500;
   border-radius: 8px;
+  font-size: inherit;
   cursor: pointer;
   transition: background-color .3s ease-in-out;
   
@@ -104,12 +105,14 @@ h1, h2, h3, h4, h5, h6 {
   &.btn-outline {
     transition: border .3s ease-in-out, color .3s ease-in-out;
     background-color: white;
+    padding: 11px 23px;
     color: #6E48AA;
     border: 1px solid #6E48AA;
     &:hover {
       border: 1px transparent;
       color: white;
       background-color: #6E48AA;
+      border: 1px solid #6E48AA;
     }
   }
   &.btn-disabled {

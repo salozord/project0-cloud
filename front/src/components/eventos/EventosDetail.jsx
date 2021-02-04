@@ -60,10 +60,10 @@ export function EventosDetail() {
                         <p className="subtitle">{(evento.presencial)? "Presencial":"Virtual"}</p>
                     </div>
                     <div className="evento-detail-buttons">
-                        <Link to={{pathname: `/editar/${eventoId}`, state: { from: location }}} className="btn">
+                        <Link to={{pathname: `/editar/${eventoId}`, state: { from: location }}} className="btn btn-extend">
                             Editar
                         </Link>
-                        <button onClick={delEvento} className="btn btn-outline">
+                        <button onClick={delEvento} className="btn btn-outline btn-extend">
                             Eliminar
                         </button>
                     </div>
