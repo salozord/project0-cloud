@@ -1,6 +1,6 @@
 .eventos-section {
     width: 100%;
-    height: 100%;
+    min-height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -15,6 +15,8 @@
         align-items: flex-start;
         justify-content: center;
         gap: 1rem;
+        width: 100%;
+        height: 100%;
 
         .no-eventos-info {
             color: white;
@@ -24,6 +26,7 @@
             width: 100%;
         }
         .evento-card {
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1),0 4px 6px -2px rgba(0,0,0,0.05);
             padding: 1rem;
             background-color: white;
             border-radius: 16px;
@@ -37,7 +40,7 @@
                 width: 30%;
             }
             &:hover {
-                background-color: darken(white, 25);
+                background-color: darken(white, 5);
                 .evento-card-number {
                     color: lighten(#0e0e0e, 15);
                 }
@@ -52,8 +55,12 @@
             }
             .evento-card-body {
                 padding: 1rem 0;
+                p {
+                    margin: 0.5rem 0;
+                }
                 .subtitle {
                     font-weight: 600;
+                    color: #0e0e0e;
                 }
                 .silent {
                     color: darken(#ced4da, 15);
@@ -67,16 +74,118 @@
                 right: 1rem;
                 color: lightgrey;
                 font-size: 1.3rem;
+                transition: color .3s ease-in;
             }
         }
     }
     // Event detail
     .evento-detail {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
 
+        .evento-card {
+            padding: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1),0 4px 6px -2px rgba(0,0,0,0.05);
+            background-color: white;
+            border-radius: 16px;
+            width: 100%;
+            text-decoration: none;
+            transition: background-color .3s ease-in;
+            position: relative;
+
+            @media screen and (min-width:768px) {
+                width: 40%;
+            }
+            .evento-card-header {
+                padding: 1rem 0;
+                border-bottom: 2px solid lightgrey;
+                h3 {
+                    margin: 0;
+                    font-weight: bold;
+                }
+            }
+            .evento-card-body {
+                padding: 1rem 0;
+                p {
+                    margin: 0.5rem 0;
+                }
+                .subtitle {
+                    font-weight: 600;
+                }
+                .silent {
+                    color: darken(#ced4da, 15);
+                    font-size: 0.9rem;
+                    font-weight: 500;
+                }
+            }
+            .evento-detail-buttons {
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+            }
+        }
     }
     // Event creation
     .evento-create {
+        padding: 1rem;
+        background-color: white;
+        box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1),0 4px 6px -2px rgba(0,0,0,0.05);
+        border-radius: 16px;
+        overflow-y: auto;
+        height: 100%;
+        max-height: 85vh;
 
+        @media screen and (min-width:768px) {
+            width: 400px;
+        }
+        .evento-create-header {
+            border-bottom: 2px solid lightgrey;
+            h1 {
+                margin: 0;
+                padding: 0.8rem 0;
+                text-align: center;
+            }
+        }
+        .error-container {
+            text-align: center;
+            vertical-align: middle;
+            background-color: lightcoral;
+            padding: 12px 24px;
+            width: 100%;
+            color: white;
+            font-style: italic;
+            font-size: 0.85rem;
+        }
+        .evento-create-body {
+            form {
+                .evento-create-form {
+                    padding: 0.8rem 0 1.6rem;
+                }
+                label {
+                    display: block;
+                    width: 100%;
+                    float: left;
+                    margin: 0.8rem 0;
+                }
+                .form-checkbox {
+                    margin: 0.8rem 0;
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-start;
+                    label {
+                        margin: 0;
+                        width: auto;
+                        padding-left: 1rem;
+                    }
+                    input {
+                        margin: 0;
+                    }
+                }
+            }
+        }
     }
 
 }

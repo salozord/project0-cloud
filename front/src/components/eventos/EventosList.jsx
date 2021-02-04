@@ -1,23 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useEventos } from './EventosHook';
 
+import './eventos.scss';
+
 export default function EventosList() {
     
-    const { eventos } = useEventos();
+    const { eventos, getEventos } = useEventos();
     // const { user } = useAuth();
 
 
-    // useEffect(() => {
-    //     if(!eventos) {
-    //         getEventos(user);
-    //     }
-    // }, [eventos, getEventos, user]);
+    useEffect(() => {
+        if(!eventos) {
+            getEventos();
+        }
+    }, [eventos, getEventos]);
 
     return (
         <section className="eventos-container">
             {(eventos &&  eventos.length)? 
-                eventos.map((e, i) => <Evento evento={e} key={i} />)
+                eventos.map((e, i) => <Evento evento={e} key={i} num={i} />)
             : (
                 <p className="no-eventos-info">
                     No hay eventos que mostrar. ¡Prueba creando uno!
@@ -27,17 +29,17 @@ export default function EventosList() {
     );
 }
 
-function Evento({ evento, key }) {
+function Evento({ evento, num }) {
     return (
-        <Link className="evento-card" to={`/eventos/${evento.id}`}>
+        <Link className="evento-card" to={`/detalle/${evento.id}`}>
             <div className="evento-card-header">
                 <h3>{evento.nombre}</h3>
             </div>
             <div className="evento-card-body">
                 <p className="subtitle">{evento.lugar}</p>
-                <p className="silent">{evento.fecha_creacion}</p>
+                <p className="silent">Creado en: {new Date(evento.fecha_creacion).toLocaleString()}</p>
             </div>
-            <p className="evento-card-number">{key}</p>
+            <p className="evento-card-number">{num}</p>
         </Link>
     );
 }

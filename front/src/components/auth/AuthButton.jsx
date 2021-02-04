@@ -14,14 +14,14 @@ export default function AuthButton() {
     return (auth.user) ? (
         <ul>
             <li>
-                <Link to="/eventos/crear">
+                <Link to="/crear">
                     <i className="bi bi-plus-circle"></i>&nbsp;Crear
                 </Link>
             </li> 
             <li>
-                <Link onClick={() => logout()}>
+                <button onClick={() => logout()}>
                     <i className="bi bi-box-arrow-right"></i>&nbsp;Salir
-                </Link>
+                </button>
             </li> 
         </ul>
     ) : (

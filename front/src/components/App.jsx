@@ -5,11 +5,14 @@ import { AuthRoute } from "./utils/AuthRoute";
 import { ProvideAuth } from "./auth/AuthHook";
 
 import AuthButton from "./auth/AuthButton";
-import EventosPage from "./eventos/EventosPage"
+import { EventosDetail , EventosEdit } from "./eventos/EventosDetail";
 import LoginPage from "./auth/LoginPage";
 import RegistroPage from "./auth/RegistroPage";
 import './App.scss';
 import NotFound from "./utils/NotFound";
+import EventosList from "./eventos/EventosList";
+import EventosCreate from "./eventos/EventosCreate";
+import { ProvideEventos } from "./eventos/EventosHook";
 
 function App() {
   return (
@@ -26,18 +29,41 @@ function App() {
 
           <div className="container">
             <Switch>
-              <PrivateRoute exact path="/">
-                <EventosPage />
-              </PrivateRoute>
+              
               <AuthRoute path="/login">
                 <LoginPage />
               </AuthRoute>
               <AuthRoute path="/registro">
                 <RegistroPage />
               </AuthRoute>
+
+                <ProvideEventos>
+                  <PrivateRoute exact path="/">
+                    <main className="eventos-section">
+                      <EventosList />
+                    </main>
+                  </PrivateRoute>
+                  <PrivateRoute exact path="/crear">
+                    <main className="eventos-section">
+                      <EventosCreate />
+                    </main>
+                  </PrivateRoute>
+                  <PrivateRoute exact path="/detalle/:eventoId">
+                    <main className="eventos-section">
+                      <EventosDetail />
+                    </main>
+                  </PrivateRoute>
+                  <PrivateRoute exact path="/editar/:eventoId">
+                    <main className="eventos-section">
+                      <EventosEdit />
+                    </main>
+                  </PrivateRoute>
+                </ProvideEventos>
+
               <Route path="*">
                 <NotFound />
               </Route>
+
             </Switch>
           </div>
         </div>

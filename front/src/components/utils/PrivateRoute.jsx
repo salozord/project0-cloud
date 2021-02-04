@@ -5,12 +5,12 @@ import { useAuth } from "../auth/AuthHook";
 
 
 export function PrivateRoute({ children, ...rest }) {
-    let auth = useAuth();
+    let { user } = useAuth();
     return (
       <Route
         {...rest}
         render={({ location }) =>
-          auth.user ? (
+          user ? (
             children
           ) : (
             <Redirect
