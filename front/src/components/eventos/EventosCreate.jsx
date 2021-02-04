@@ -109,7 +109,13 @@ export default function EventosCreate({ edit }) {
                             <label htmlFor="nombre">Nombre</label>
                             <input className="form-control" type="text" name="nombre" id="nombre" onChange={changeNombre} value={evento.nombre} placeholder="Ingresa el nombre" />
                             <label htmlFor="categoria">Categoría</label>
-                            <input className="form-control" type="text" name="categoria" id="categoria" onChange={changeCategoria} value={evento.categoria} placeholder="(Curso, Seminario, Congreso o Conferencia)" />
+                            <select className="form-select" name="categoria" id="categoria" onChange={changeCategoria} value={evento.categoria}>
+                                <option value="Curso">Curso</option>
+                                <option value="Seminario">Seminario</option>
+                                <option value="Congreso">Congreso</option>
+                                <option value="Conferencia">Conferencia</option>
+                            </select>
+                            {/* <input className="form-control" type="text" name="categoria" id="categoria" onChange={changeCategoria} value={evento.categoria} placeholder="(Curso, Seminario, Congreso o Conferencia)" /> */}
                             <label htmlFor="lugar">Lugar</label>
                             <input className="form-control" type="text" name="lugar" id="lugar" onChange={changeLugar} value={evento.lugar} placeholder="Ingresa el lugar" />
                             <label htmlFor="direccion">Dirección</label>
