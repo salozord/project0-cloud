@@ -53,7 +53,7 @@ function useProvideEventos() {
       .then(async (ans) => {
         if(ans.ok) {
           let response = await ans.json();
-          response.sort((a, b) => (new Date(b.fecha_creacion)) - (new Date(a.fecha_creacion)));
+          response.sort((a, b) => (new Date(b.fecha_creacion).getTime()) - (new Date(a.fecha_creacion).getTime()));
           setEventos(response);
           return response;
         }
